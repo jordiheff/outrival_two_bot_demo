@@ -1,0 +1,312 @@
+{
+  "total_calls": 17,
+  "all_calls_avg_latency": 1.2309300531806926,
+  "all_calls_avg_bot_connection_time": 1.1764705882352944,
+  "all_calls_avg_sentiment": 0.8941176470588235,
+  "all_calls_total_duration": 2183.0,
+  "all_calls_avg_duration": 128.41176470588235,
+  "all_calls_avg_message_duration": 3.1222998995725866,
+  "call_history": [
+    {
+      "timestamp": "2025-12-11T14:12:57",
+      "duration_seconds": 132.0,
+      "avg_latency": 2.0,
+      "avg_bot_connection_time": 3.0,
+      "sentiment": 0.9,
+      "message_count": 27,
+      "avg_message_duration": 4.423076923076923
+    },
+    {
+      "timestamp": "2025-12-11T14:12:57",
+      "duration_seconds": 132.0,
+      "avg_latency": 2.0,
+      "avg_bot_connection_time": 3.0,
+      "sentiment": 0.9,
+      "message_count": 27,
+      "avg_message_duration": 4.423076923076923
+    },
+    {
+      "timestamp": "2025-12-11T14:33:59",
+      "duration_seconds": 114.0,
+      "avg_latency": 1.9545454545454546,
+      "avg_bot_connection_time": 1.5,
+      "sentiment": 0.9,
+      "message_count": 29,
+      "avg_message_duration": 3.4074074074074074
+    },
+    {
+      "timestamp": "2025-12-11T14:39:56",
+      "duration_seconds": 102.0,
+      "avg_latency": 1.4545454545454546,
+      "avg_bot_connection_time": 2.0,
+      "sentiment": 0.9,
+      "message_count": 28,
+      "avg_message_duration": 3.4166666666666665
+    },
+    {
+      "timestamp": "2025-12-11T15:40:08",
+      "duration_seconds": 101.0,
+      "avg_latency": 1.6956521739130435,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.8,
+      "message_count": 29,
+      "avg_message_duration": 3.48
+    },
+    {
+      "timestamp": "2025-12-11T15:46:44",
+      "duration_seconds": 138.0,
+      "avg_latency": 2.2857142857142856,
+      "avg_bot_connection_time": 1.5,
+      "sentiment": 0.9,
+      "message_count": 25,
+      "avg_message_duration": 4.875
+    },
+    {
+      "timestamp": "2025-12-11T15:53:09",
+      "duration_seconds": 163.0,
+      "avg_latency": 3.090909090909091,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.9,
+      "message_count": 31,
+      "avg_message_duration": 4.724137931034483
+    },
+    {
+      "timestamp": "2025-12-11T16:19:38",
+      "duration_seconds": 116.0,
+      "avg_latency": 0.0,
+      "avg_bot_connection_time": 0.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 29,
+      "avg_message_duration": 0.0,
+      "professionalism": 0.9,
+      "helpfulness": 0.9,
+      "engagement": 0.9,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.8,
+        "Marcus": 0.9
+      }
+    },
+    {
+      "timestamp": "2025-12-11T16:27:57",
+      "duration_seconds": 153.0,
+      "avg_latency": 0.0,
+      "avg_bot_connection_time": 0.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 27,
+      "avg_message_duration": 0.0,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 0.8,
+      "speaker_sentiments": {
+        "Sarah": 0.8,
+        "Marcus": 0.9
+      }
+    },
+    {
+      "timestamp": "2025-12-11T16:35:39",
+      "duration_seconds": 106.0,
+      "avg_latency": 0.0,
+      "avg_bot_connection_time": 0.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 27,
+      "avg_message_duration": 0.0,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.9
+      }
+    },
+    {
+      "timestamp": "2025-12-11T16:41:07",
+      "duration_seconds": 119.0,
+      "avg_latency": 0.0,
+      "avg_bot_connection_time": 0.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 25,
+      "avg_message_duration": 0.0,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.9
+      }
+    },
+    {
+      "timestamp": "2025-12-11T16:57:47",
+      "duration_seconds": 127.0,
+      "avg_latency": 1.0,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 24,
+      "avg_message_duration": 4.304347826086956,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.9
+      },
+      "customer_topics": [
+        "dates",
+        "hotel",
+        "amenities",
+        "price",
+        "tours"
+      ]
+    },
+    {
+      "timestamp": "2025-12-11T17:04:28",
+      "duration_seconds": 153.0,
+      "avg_latency": 1.0,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 50,
+      "avg_message_duration": 3.230769230769231,
+      "professionalism": 0.9,
+      "helpfulness": 0.9,
+      "engagement": 0.9,
+      "resolution": 0.8,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.8
+      },
+      "customer_topics": [
+        "dates",
+        "hotel",
+        "restaurants",
+        "activities",
+        "breakfast",
+        "price"
+      ]
+    },
+    {
+      "timestamp": "2025-12-11T17:09:06",
+      "duration_seconds": 109.0,
+      "avg_latency": 1.1111111111111112,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 22,
+      "avg_message_duration": 4.05,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.9
+      },
+      "customer_topics": [
+        "trip",
+        "hotel",
+        "price",
+        "activities"
+      ]
+    },
+    {
+      "timestamp": "2025-12-11T17:21:30",
+      "duration_seconds": 153.0,
+      "avg_latency": 1.3333333333333333,
+      "avg_bot_connection_time": 2.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 30,
+      "avg_message_duration": 4.6923076923076925,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.8
+      },
+      "customer_topics": [
+        "dates",
+        "hotel",
+        "upgrades",
+        "price",
+        "breakfast",
+        "attractions"
+      ]
+    },
+    {
+      "timestamp": "2025-12-11T17:33:46",
+      "duration_seconds": 153.0,
+      "avg_latency": 1.0,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 28,
+      "avg_message_duration": 4.6923076923076925,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 1.0,
+      "speaker_sentiments": {
+        "Sarah": 0.9,
+        "Marcus": 0.8
+      },
+      "customer_topics": [
+        "dates",
+        "hotel",
+        "amenities",
+        "restaurants",
+        "price"
+      ]
+    },
+    {
+      "timestamp": "2025-12-11T17:46:05",
+      "duration_seconds": 112.0,
+      "avg_latency": 1.0,
+      "avg_bot_connection_time": 1.0,
+      "sentiment": 0.9,
+      "sentiment_label": "positive",
+      "message_count": 26,
+      "avg_message_duration": 3.36,
+      "professionalism": 1.0,
+      "helpfulness": 1.0,
+      "engagement": 1.0,
+      "resolution": 0.9,
+      "speaker_sentiments": {
+        "Sarah": 0.8,
+        "Marcus": 0.9
+      },
+      "customer_topics": [
+        "dates",
+        "hotel",
+        "amenities",
+        "price",
+        "transfers",
+        "tours"
+      ]
+    }
+  ],
+  "topic_counts": {
+    "dates": 5,
+    "hotel": 6,
+    "amenities": 3,
+    "price": 6,
+    "tours": 2,
+    "restaurants": 2,
+    "activities": 2,
+    "breakfast": 2,
+    "trip": 1,
+    "upgrades": 1,
+    "attractions": 1,
+    "transfers": 1
+  }
+}

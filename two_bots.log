@@ -1,0 +1,557 @@
+17:46:05 | INFO     | SQLite database initialized
+17:46:05 | INFO     | Starting two-bot conversation demo
+17:46:05 | INFO     | Reset all goodbye events and flags for fresh run
+17:46:05 | INFO     | Using existing room: https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:46:05 | INFO     | Both bots will join: https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:46:05 | INFO     | Monitor | Conversation monitor started
+17:46:05 | INFO     | Conversation monitor started - will signal when to end call
+17:46:05 | INFO     | Sarah | Starting bot
+17:46:05 | DEBUG    | Loading Silero VAD model...
+17:46:06 | DEBUG    | Loaded Silero VAD
+17:46:06 | DEBUG    | Linking Pipeline#0::Source -> DailyInputTransport#0
+17:46:06 | DEBUG    | Linking DailyInputTransport#0 -> CartesiaSTTService#0
+17:46:06 | DEBUG    | Linking CartesiaSTTService#0 -> TranscriptionForwarder#0
+17:46:06 | DEBUG    | Linking TranscriptionForwarder#0 -> SarahGoodbyeGate#0
+17:46:06 | DEBUG    | Linking SarahGoodbyeGate#0 -> LLMUserAggregator#0
+17:46:06 | DEBUG    | Linking LLMUserAggregator#0 -> OpenAILLMService#0
+17:46:06 | DEBUG    | Linking OpenAILLMService#0 -> Sarah
+17:46:06 | DEBUG    | Linking Sarah -> TurnCounter#0
+17:46:06 | DEBUG    | Linking TurnCounter#0 -> DailyOutputTransport#0
+17:46:06 | DEBUG    | Linking DailyOutputTransport#0 -> AudioBufferProcessor#0
+17:46:06 | DEBUG    | Linking AudioBufferProcessor#0 -> LLMAssistantAggregator#0
+17:46:06 | DEBUG    | Linking LLMAssistantAggregator#0 -> Pipeline#0::Sink
+17:46:06 | DEBUG    | Linking PipelineTask#0::Source -> Pipeline#0
+17:46:06 | DEBUG    | Linking Pipeline#0 -> PipelineTask#0::Sink
+17:46:06 | INFO     | Sarah | Registered end callback with conversation monitor
+17:46:06 | DEBUG    | Runner PipelineRunner#0 started running PipelineTask#0
+17:46:06 | INFO     | Marcus | Starting bot
+17:46:06 | DEBUG    | Loading Silero VAD model...
+17:46:06 | DEBUG    | Loaded Silero VAD
+17:46:06 | DEBUG    | Linking Pipeline#2::Source -> DailyInputTransport#1
+17:46:06 | DEBUG    | Linking DailyInputTransport#1 -> CartesiaSTTService#1
+17:46:06 | DEBUG    | Linking CartesiaSTTService#1 -> TranscriptionForwarder#1
+17:46:06 | DEBUG    | Linking TranscriptionForwarder#1 -> LLMUserAggregator#1
+17:46:06 | DEBUG    | Linking LLMUserAggregator#1 -> OpenAILLMService#1
+17:46:06 | DEBUG    | Linking OpenAILLMService#1 -> MarcusGoodbyeGate#0
+17:46:06 | DEBUG    | Linking MarcusGoodbyeGate#0 -> Marcus
+17:46:06 | DEBUG    | Linking Marcus -> TurnCounter#1
+17:46:06 | DEBUG    | Linking TurnCounter#1 -> DailyOutputTransport#1
+17:46:06 | DEBUG    | Linking DailyOutputTransport#1 -> LLMAssistantAggregator#1
+17:46:06 | DEBUG    | Linking LLMAssistantAggregator#1 -> Pipeline#2::Sink
+17:46:06 | DEBUG    | Linking PipelineTask#1::Source -> Pipeline#2
+17:46:06 | DEBUG    | Linking Pipeline#2 -> PipelineTask#1::Sink
+17:46:06 | DEBUG    | Runner PipelineRunner#1 started running PipelineTask#1
+17:46:06 | DEBUG    | PipelineTask#0: Starting. Waiting for StartFrame#0 to reach the end of the pipeline...
+17:46:06 | INFO     | Marcus | Marcus goodbye task started - waiting for Sarah's goodbye signal...
+17:46:06 | INFO     | Marcus | sarah_said_goodbye_event is_set: False
+17:46:06 | DEBUG    | PipelineTask#1: Starting. Waiting for StartFrame#1 to reach the end of the pipeline...
+17:46:06 | DEBUG    | Setting VAD params to: confidence=0.7 start_secs=0.2 stop_secs=0.5 min_volume=0.6
+17:46:06 | INFO     | Joining https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:46:06 | DEBUG    | Setting VAD params to: confidence=0.7 start_secs=0.2 stop_secs=0.5 min_volume=0.6
+17:46:06 | INFO     | Joining https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:46:06 | DEBUG    | Connecting to Cartesia STT
+17:46:06 | DEBUG    | Connecting to Cartesia STT
+17:46:06 | DEBUG    | PipelineTask#1: StartFrame#1 reached the end of the pipeline, pipeline is now ready.
+17:46:06 | DEBUG    | PipelineTask#0: StartFrame#0 reached the end of the pipeline, pipeline is now ready.
+17:46:07 | INFO     | Joined https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:46:07 | DEBUG    | Start receiving audio
+17:46:07 | INFO     | Participant joined 0e14e05b-8884-4089-bf8b-2b2466e221fd
+17:46:07 | DEBUG    | Starting to capture [microphone] audio from participant 0e14e05b-8884-4089-bf8b-2b2466e221fd
+17:46:07 | INFO     | Participant joined 4bb2749d-ff4e-4320-a1fd-6194371cfdce
+17:46:07 | INFO     | Marcus | First participant joined: georgehef
+17:46:07 | DEBUG    | Starting to capture [microphone] audio from participant 4bb2749d-ff4e-4320-a1fd-6194371cfdce
+17:46:07 | INFO     | Joined https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:46:07 | DEBUG    | Start receiving audio
+17:46:07 | INFO     | Participant joined 0e14e05b-8884-4089-bf8b-2b2466e221fd
+17:46:07 | DEBUG    | Starting to capture [microphone] audio from participant 0e14e05b-8884-4089-bf8b-2b2466e221fd
+17:46:07 | INFO     | Participant joined 2100cd96-d373-4205-9ea9-f5fecbaecd68
+17:46:07 | INFO     | Sarah | First participant joined: georgehef
+17:46:07 | INFO     | Sarah | Started audio recording
+17:46:07 | DEBUG    | Starting to capture [microphone] audio from participant 2100cd96-d373-4205-9ea9-f5fecbaecd68
+17:46:08 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}]
+17:46:09 | DEBUG    | OpenAILLMService#0 TTFB: 0.8992912769317627
+17:46:09 | DEBUG    | Sarah: Generating TTS [Hi Marcus, this is Sarah.]
+17:46:10 | DEBUG    | OpenAILLMService#0 prompt tokens: 201, completion tokens: 39
+17:46:10 | DEBUG    | OpenAILLMService#0 processing time: 1.6607906818389893
+17:46:10 | DEBUG    | Sarah usage characters: 25
+17:46:10 | DEBUG    | Sarah TTFB: 1.005159854888916
+17:46:10 | DEBUG    | Sarah processing time: 1.0056040287017822
+17:46:10 | DEBUG    | Sarah: Generating TTS [ I’m looking forward to my upcoming trip and just wanted to check a few details with you.]
+17:46:10 | DEBUG    | Bot started speaking
+17:46:11 | DEBUG    | User started speaking
+17:46:11 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#0
+17:46:11 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0012159347534179688
+17:46:11 | DEBUG    | CartesiaSTTService#1 processing time: 0.0015420913696289062
+17:46:11 | DEBUG    | Sarah usage characters: 89
+17:46:11 | DEBUG    | Sarah TTFB: 1.1310720443725586
+17:46:11 | DEBUG    | Sarah processing time: 1.1315960884094238
+17:46:11 | DEBUG    | Sarah: Generating TTS [Do you have the dates for when my trip will take place?]
+17:46:12 | DEBUG    | Sarah usage characters: 55
+17:46:12 | DEBUG    | Sarah TTFB: 0.8089258670806885
+17:46:12 | DEBUG    | Sarah processing time: 0.8097240924835205
+17:46:12 | INFO     | Sarah | Turn 1 completed
+17:46:12 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Hi Marcus this is Sarah.
+17:46:16 | DEBUG    | Marcus | Forwarded transcription from Sarah:  I'm looking forward to my upcoming trip and just wanted to check a few details with you.
+17:46:16 | DEBUG    | User stopped speaking
+17:46:16 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}]
+17:46:17 | DEBUG    | User started speaking
+17:46:17 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#1
+17:46:17 | DEBUG    | CartesiaSTTService#1 TTFB: 0.001257181167602539
+17:46:17 | DEBUG    | CartesiaSTTService#1 processing time: 0.0015308856964111328
+17:46:17 | DEBUG    | OpenAILLMService#1 processing time: 0.3064601421356201
+17:46:17 | DEBUG    | OpenAILLMService#1 TTFB: 0.30909013748168945
+17:46:17 | INFO     | Marcus | Turn 1 completed
+17:46:19 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Do you have the dates for when my trip will take place?
+17:46:19 | DEBUG    | Bot stopped speaking
+17:46:19 | DEBUG    | User stopped speaking
+17:46:19 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}]
+17:46:19 | DEBUG    | OpenAILLMService#1 TTFB: 0.5438270568847656
+17:46:20 | DEBUG    | Marcus: Generating TTS [Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week.]
+17:46:20 | DEBUG    | OpenAILLMService#1 prompt tokens: 226, completion tokens: 47
+17:46:20 | DEBUG    | OpenAILLMService#1 processing time: 1.0107769966125488
+17:46:21 | DEBUG    | Marcus usage characters: 98
+17:46:21 | DEBUG    | Marcus TTFB: 1.6231610774993896
+17:46:21 | DEBUG    | Marcus processing time: 1.6238279342651367
+17:46:21 | DEBUG    | Marcus: Generating TTS [Is there anything about your timing that you want to adjust, or are those dates still working for you?]
+17:46:21 | DEBUG    | Bot started speaking
+17:46:22 | DEBUG    | User started speaking
+17:46:22 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#2
+17:46:22 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0013761520385742188
+17:46:22 | DEBUG    | CartesiaSTTService#0 processing time: 0.0018680095672607422
+17:46:23 | DEBUG    | Marcus usage characters: 102
+17:46:23 | DEBUG    | Marcus TTFB: 2.021496057510376
+17:46:23 | DEBUG    | Marcus processing time: 2.0221290588378906
+17:46:23 | INFO     | Marcus | Turn 2 completed
+17:46:25 | DEBUG    | Sarah | Forwarded transcription from Marcus:  Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.
+17:46:27 | DEBUG    | Sarah | Forwarded transcription from Marcus:  which is a full week.
+17:46:27 | DEBUG    | User stopped speaking
+17:46:27 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}]
+17:46:27 | DEBUG    | OpenAILLMService#0 TTFB: 0.4602229595184326
+17:46:27 | DEBUG    | User started speaking
+17:46:27 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#3
+17:46:27 | DEBUG    | CartesiaSTTService#0 TTFB: 0.00045800209045410156
+17:46:27 | DEBUG    | CartesiaSTTService#0 processing time: 0.0006389617919921875
+17:46:27 | DEBUG    | OpenAILLMService#0 processing time: 0.51833176612854
+17:46:27 | DEBUG    | Sarah: Generating TTS [Thanks for]
+17:46:27 | DEBUG    | Sarah TTFB: 0.0010159015655517578
+17:46:27 | DEBUG    | Sarah processing time: 0.0018010139465332031
+17:46:30 | DEBUG    | Sarah | Forwarded transcription from Marcus:  Is there anything about your timing that you want to adjust?
+17:46:30 | DEBUG    | Monitor | Monitor analysis result: CONTINUE
+17:46:30 | DEBUG    | User stopped speaking
+17:46:30 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}]
+17:46:30 | DEBUG    | User started speaking
+17:46:30 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#4
+17:46:30 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0008032321929931641
+17:46:30 | DEBUG    | CartesiaSTTService#0 processing time: 0.0011169910430908203
+17:46:30 | DEBUG    | OpenAILLMService#0 processing time: 0.3881509304046631
+17:46:30 | DEBUG    | OpenAILLMService#0 TTFB: 0.38939809799194336
+17:46:30 | INFO     | Sarah | Turn 2 completed
+17:46:32 | DEBUG    | User stopped speaking
+17:46:32 | DEBUG    | Sarah | Forwarded transcription from Marcus:  Or are those dates still working for you?
+17:46:32 | DEBUG    | Bot stopped speaking
+17:46:33 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}]
+17:46:33 | DEBUG    | OpenAILLMService#0 TTFB: 0.6506547927856445
+17:46:33 | DEBUG    | Sarah: Generating TTS [Thanks for double-checking, Marcus.]
+17:46:34 | DEBUG    | OpenAILLMService#0 prompt tokens: 305, completion tokens: 34
+17:46:34 | DEBUG    | OpenAILLMService#0 processing time: 1.0628368854522705
+17:46:34 | DEBUG    | Sarah usage characters: 35
+17:46:34 | DEBUG    | Sarah TTFB: 0.5955169200897217
+17:46:34 | DEBUG    | Sarah processing time: 0.5960209369659424
+17:46:34 | DEBUG    | Sarah: Generating TTS [ Those dates should work well for me, actually.]
+17:46:34 | DEBUG    | Bot started speaking
+17:46:34 | DEBUG    | User started speaking
+17:46:34 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#5
+17:46:34 | DEBUG    | CartesiaSTTService#1 TTFB: 0.001230001449584961
+17:46:34 | DEBUG    | CartesiaSTTService#1 processing time: 0.0015659332275390625
+17:46:35 | DEBUG    | Sarah usage characters: 47
+17:46:35 | DEBUG    | Sarah TTFB: 0.7378301620483398
+17:46:35 | DEBUG    | Sarah processing time: 0.738368034362793
+17:46:35 | DEBUG    | Sarah: Generating TTS [Could you remind me of the name of the hotel where I’ll be staying?]
+17:46:35 | DEBUG    | Sarah usage characters: 67
+17:46:35 | DEBUG    | Sarah TTFB: 0.8520259857177734
+17:46:35 | DEBUG    | Sarah processing time: 0.8524878025054932
+17:46:35 | INFO     | Sarah | Turn 3 completed
+17:46:36 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Thanks for double checking, Marcus.
+17:46:38 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Those dates should work well for me, actually.
+17:46:41 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Could you remind me of the name of the hotel where I'll be staying?
+17:46:41 | DEBUG    | Bot stopped speaking
+17:46:41 | DEBUG    | Monitor | Monitor analysis result: CONTINUE
+17:46:41 | DEBUG    | User stopped speaking
+17:46:41 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}]
+17:46:41 | DEBUG    | OpenAILLMService#1 TTFB: 0.3016650676727295
+17:46:41 | DEBUG    | Marcus: Generating TTS [Absolutely, you're booked at the Riviera Bay Hotel.]
+17:46:42 | DEBUG    | OpenAILLMService#1 prompt tokens: 315, completion tokens: 36
+17:46:42 | DEBUG    | OpenAILLMService#1 processing time: 0.6602301597595215
+17:46:42 | DEBUG    | Marcus usage characters: 51
+17:46:42 | DEBUG    | Marcus TTFB: 1.0475618839263916
+17:46:42 | DEBUG    | Marcus processing time: 1.0482311248779297
+17:46:42 | DEBUG    | Marcus: Generating TTS [ It's right on the waterfront and has great reviews for both comfort and service.]
+17:46:42 | DEBUG    | Bot started speaking
+17:46:43 | DEBUG    | User started speaking
+17:46:43 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#6
+17:46:43 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0009326934814453125
+17:46:43 | DEBUG    | CartesiaSTTService#0 processing time: 0.0012443065643310547
+17:46:44 | DEBUG    | Marcus usage characters: 81
+17:46:44 | DEBUG    | Marcus TTFB: 1.0563478469848633
+17:46:44 | DEBUG    | Marcus processing time: 1.0567169189453125
+17:46:44 | DEBUG    | Marcus: Generating TTS [Would you like any details about the amenities or location?]
+17:46:44 | DEBUG    | Sarah | Forwarded transcription from Marcus:  Absolutely. You're booked.
+17:46:45 | DEBUG    | Marcus usage characters: 59
+17:46:45 | DEBUG    | Marcus TTFB: 0.9990537166595459
+17:46:45 | DEBUG    | Marcus processing time: 0.9996669292449951
+17:46:45 | INFO     | Marcus | Turn 3 completed
+17:46:48 | DEBUG    | Sarah | Forwarded transcription from Marcus:  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews
+17:46:49 | DEBUG    | Sarah | Forwarded transcription from Marcus:  for both comfort and service.
+17:46:49 | DEBUG    | Monitor | Monitor analysis result: CONTINUE
+17:46:53 | DEBUG    | Sarah | Forwarded transcription from Marcus:  Would you like any details about the amenities or location?
+17:46:53 | DEBUG    | Bot stopped speaking
+17:46:53 | DEBUG    | User stopped speaking
+17:46:53 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}, {'role': 'assistant', 'content': 'Thanks for double-checking, Marcus.  Those dates should work well for me, actually. Could you remind me of the name of the hotel where I’ll be staying?'}, {'role': 'user', 'content': "Absolutely. You're booked.  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews  for both comfort and service.  Would you like any details about the amenities or location?"}]
+17:46:54 | DEBUG    | OpenAILLMService#0 TTFB: 0.9204280376434326
+17:46:54 | DEBUG    | Sarah: Generating TTS [That sounds lovely, Marcus.]
+17:46:55 | DEBUG    | OpenAILLMService#0 prompt tokens: 388, completion tokens: 40
+17:46:55 | DEBUG    | OpenAILLMService#0 processing time: 1.7073462009429932
+17:46:55 | DEBUG    | Sarah usage characters: 27
+17:46:55 | DEBUG    | Sarah TTFB: 0.9698150157928467
+17:46:55 | DEBUG    | Sarah processing time: 0.9705510139465332
+17:46:55 | DEBUG    | Sarah: Generating TTS [ I’d love to know a bit more about the amenities, especially if there’s a pool or breakfast included.]
+17:46:55 | DEBUG    | Bot started speaking
+17:46:56 | DEBUG    | User started speaking
+17:46:56 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#7
+17:46:56 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0008499622344970703
+17:46:56 | DEBUG    | CartesiaSTTService#1 processing time: 0.0011391639709472656
+17:46:57 | DEBUG    | Sarah usage characters: 101
+17:46:57 | DEBUG    | Sarah TTFB: 1.5813350677490234
+17:46:57 | DEBUG    | Sarah processing time: 1.582129955291748
+17:46:57 | DEBUG    | Sarah: Generating TTS [Also, what’s the final price for the whole trip?]
+17:46:57 | DEBUG    | Marcus | Forwarded transcription from Sarah:  That sounds lovely, Marcus.
+17:46:58 | DEBUG    | Sarah usage characters: 48
+17:46:58 | DEBUG    | Sarah TTFB: 1.1013078689575195
+17:46:58 | DEBUG    | Sarah processing time: 1.101902961730957
+17:46:58 | INFO     | Sarah | Turn 4 completed
+17:46:58 | DEBUG    | Monitor | Monitor analysis result: CONTINUE
+17:47:00 | DEBUG    | Marcus | Forwarded transcription from Sarah:  I'd love to know a bit more about the amenities.
+17:47:00 | DEBUG    | User stopped speaking
+17:47:00 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}]
+17:47:00 | DEBUG    | User started speaking
+17:47:00 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#8
+17:47:00 | DEBUG    | CartesiaSTTService#1 TTFB: 0.00098419189453125
+17:47:00 | DEBUG    | CartesiaSTTService#1 processing time: 0.0011942386627197266
+17:47:00 | DEBUG    | OpenAILLMService#1 processing time: 0.22430729866027832
+17:47:00 | DEBUG    | OpenAILLMService#1 TTFB: 0.22516894340515137
+17:47:00 | INFO     | Marcus | Turn 4 completed
+17:47:02 | DEBUG    | Marcus | Forwarded transcription from Sarah:  especially if there's a pool or breakfast included.
+17:47:02 | DEBUG    | User stopped speaking
+17:47:02 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}]
+17:47:03 | DEBUG    | OpenAILLMService#1 TTFB: 0.41507887840270996
+17:47:03 | DEBUG    | Marcus: Generating TTS [Great questions, Sarah.]
+17:47:03 | DEBUG    | User started speaking
+17:47:03 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#9
+17:47:03 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0005829334259033203
+17:47:03 | DEBUG    | CartesiaSTTService#1 processing time: 0.0008060932159423828
+17:47:03 | DEBUG    | OpenAILLMService#1 processing time: 0.5820369720458984
+17:47:03 | DEBUG    | Marcus TTFB: 0.1049797534942627
+17:47:03 | DEBUG    | Marcus processing time: 0.10575580596923828
+17:47:05 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Also, what's the final price for the whole trip?
+17:47:05 | DEBUG    | User stopped speaking
+17:47:05 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}, {'role': 'user', 'content': "Also, what's the final price for the whole trip?"}]
+17:47:05 | DEBUG    | Bot stopped speaking
+17:47:05 | DEBUG    | OpenAILLMService#1 TTFB: 0.5416750907897949
+17:47:06 | DEBUG    | Marcus: Generating TTS [The Riviera Bay Hotel does have an outdoor pool and a complimentary breakfast buffet each morning, which guests really enjoy.]
+17:47:06 | DEBUG    | OpenAILLMService#1 prompt tokens: 406, completion tokens: 62
+17:47:06 | DEBUG    | OpenAILLMService#1 processing time: 1.1070730686187744
+17:47:06 | DEBUG    | Monitor | Monitor analysis result: CONTINUE
+17:47:08 | DEBUG    | Marcus usage characters: 125
+17:47:08 | DEBUG    | Marcus TTFB: 2.212114095687866
+17:47:08 | DEBUG    | Marcus processing time: 2.213036060333252
+17:47:08 | DEBUG    | Marcus: Generating TTS [ As for the price, your total for the week—including hotel and taxes—comes to 1350 dollars.]
+17:47:08 | DEBUG    | Bot started speaking
+17:47:09 | DEBUG    | User started speaking
+17:47:09 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#10
+17:47:09 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0009522438049316406
+17:47:09 | DEBUG    | CartesiaSTTService#0 processing time: 0.0012600421905517578
+17:47:10 | DEBUG    | Marcus usage characters: 91
+17:47:10 | DEBUG    | Marcus TTFB: 2.1634140014648438
+17:47:10 | DEBUG    | Marcus processing time: 2.1638829708099365
+17:47:10 | DEBUG    | Marcus: Generating TTS [Would you like to know about options for airport transfers or local tours while you’re there?]
+17:47:10 | DEBUG    | Sarah | Forwarded transcription from Marcus:  The Riviera Bay Hotel does have an outdoor
+17:47:12 | DEBUG    | Marcus usage characters: 93
+17:47:12 | DEBUG    | Marcus TTFB: 1.7594590187072754
+17:47:12 | DEBUG    | Marcus processing time: 1.7598068714141846
+17:47:12 | INFO     | Marcus | Turn 5 completed
+17:47:14 | DEBUG    | Sarah | Forwarded transcription from Marcus:  pool and a complimentary breakfast buffet each morning, which guests really enjoy.
+17:47:14 | DEBUG    | User stopped speaking
+17:47:14 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}, {'role': 'assistant', 'content': 'Thanks for double-checking, Marcus.  Those dates should work well for me, actually. Could you remind me of the name of the hotel where I’ll be staying?'}, {'role': 'user', 'content': "Absolutely. You're booked.  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews  for both comfort and service.  Would you like any details about the amenities or location?"}, {'role': 'assistant', 'content': 'That sounds lovely, Marcus.  I’d love to know a bit more about the amenities, especially if there’s a pool or breakfast included. Also, what’s the final price for the whole trip?'}, {'role': 'user', 'content': 'The Riviera Bay Hotel does have an outdoor  pool and a complimentary breakfast buffet each morning, which guests really enjoy.'}]
+17:47:14 | DEBUG    | User started speaking
+17:47:14 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#11
+17:47:14 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0009069442749023438
+17:47:14 | DEBUG    | CartesiaSTTService#0 processing time: 0.0011870861053466797
+17:47:14 | DEBUG    | OpenAILLMService#0 processing time: 0.20315122604370117
+17:47:14 | DEBUG    | OpenAILLMService#0 TTFB: 0.20416712760925293
+17:47:14 | INFO     | Sarah | Turn 5 completed
+17:47:15 | DEBUG    | Monitor | Monitor analysis result: CONTINUE
+17:47:16 | DEBUG    | Sarah | Forwarded transcription from Marcus:  As for the price, your total for the week.
+17:47:17 | DEBUG    | User stopped speaking
+17:47:17 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}, {'role': 'assistant', 'content': 'Thanks for double-checking, Marcus.  Those dates should work well for me, actually. Could you remind me of the name of the hotel where I’ll be staying?'}, {'role': 'user', 'content': "Absolutely. You're booked.  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews  for both comfort and service.  Would you like any details about the amenities or location?"}, {'role': 'assistant', 'content': 'That sounds lovely, Marcus.  I’d love to know a bit more about the amenities, especially if there’s a pool or breakfast included. Also, what’s the final price for the whole trip?'}, {'role': 'user', 'content': 'The Riviera Bay Hotel does have an outdoor  pool and a complimentary breakfast buffet each morning, which guests really enjoy.'}, {'role': 'user', 'content': 'As for the price, your total for the week.'}]
+17:47:17 | DEBUG    | OpenAILLMService#0 TTFB: 0.6013281345367432
+17:47:17 | DEBUG    | User started speaking
+17:47:17 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#12
+17:47:17 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0005970001220703125
+17:47:17 | DEBUG    | CartesiaSTTService#0 processing time: 0.0008261203765869141
+17:47:17 | DEBUG    | OpenAILLMService#0 processing time: 0.7225179672241211
+17:47:17 | DEBUG    | Sarah: Generating TTS [That sounds perfect, especially having]
+17:47:17 | DEBUG    | Sarah TTFB: 0.0006890296936035156
+17:47:17 | DEBUG    | Sarah processing time: 0.001561880111694336
+17:47:19 | DEBUG    | Sarah | Forwarded transcription from Marcus:  including hotel and taxes.
+17:47:19 | DEBUG    | User stopped speaking
+17:47:19 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}, {'role': 'assistant', 'content': 'Thanks for double-checking, Marcus.  Those dates should work well for me, actually. Could you remind me of the name of the hotel where I’ll be staying?'}, {'role': 'user', 'content': "Absolutely. You're booked.  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews  for both comfort and service.  Would you like any details about the amenities or location?"}, {'role': 'assistant', 'content': 'That sounds lovely, Marcus.  I’d love to know a bit more about the amenities, especially if there’s a pool or breakfast included. Also, what’s the final price for the whole trip?'}, {'role': 'user', 'content': 'The Riviera Bay Hotel does have an outdoor  pool and a complimentary breakfast buffet each morning, which guests really enjoy.'}, {'role': 'user', 'content': 'As for the price, your total for the week.'}, {'role': 'user', 'content': 'including hotel and taxes.'}]
+17:47:20 | DEBUG    | User started speaking
+17:47:20 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#13
+17:47:20 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0005240440368652344
+17:47:20 | DEBUG    | CartesiaSTTService#0 processing time: 0.0006999969482421875
+17:47:20 | DEBUG    | OpenAILLMService#0 processing time: 0.5213899612426758
+17:47:20 | DEBUG    | OpenAILLMService#0 TTFB: 0.5218887329101562
+17:47:20 | INFO     | Sarah | Turn 6 completed
+17:47:21 | DEBUG    | Sarah | Forwarded transcription from Marcus:  comes to $13.50.
+17:47:22 | DEBUG    | User stopped speaking
+17:47:22 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}, {'role': 'assistant', 'content': 'Thanks for double-checking, Marcus.  Those dates should work well for me, actually. Could you remind me of the name of the hotel where I’ll be staying?'}, {'role': 'user', 'content': "Absolutely. You're booked.  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews  for both comfort and service.  Would you like any details about the amenities or location?"}, {'role': 'assistant', 'content': 'That sounds lovely, Marcus.  I’d love to know a bit more about the amenities, especially if there’s a pool or breakfast included. Also, what’s the final price for the whole trip?'}, {'role': 'user', 'content': 'The Riviera Bay Hotel does have an outdoor  pool and a complimentary breakfast buffet each morning, which guests really enjoy.'}, {'role': 'user', 'content': 'As for the price, your total for the week.'}, {'role': 'user', 'content': 'including hotel and taxes.'}, {'role': 'user', 'content': 'comes to $13.50.'}]
+17:47:22 | DEBUG    | OpenAILLMService#0 TTFB: 0.48684191703796387
+17:47:22 | DEBUG    | User started speaking
+17:47:22 | DEBUG    | PipelineTask#0: received interruption task frame InterruptionTaskFrame#14
+17:47:22 | DEBUG    | CartesiaSTTService#0 TTFB: 0.0007150173187255859
+17:47:22 | DEBUG    | CartesiaSTTService#0 processing time: 0.0009431838989257812
+17:47:22 | DEBUG    | OpenAILLMService#0 processing time: 0.7026269435882568
+17:47:22 | DEBUG    | Sarah: Generating TTS [Wow, that’s a surprisingly low price for a week at a waterfront]
+17:47:22 | DEBUG    | Sarah TTFB: 0.0030210018157958984
+17:47:22 | DEBUG    | Sarah processing time: 0.003912925720214844
+17:47:24 | DEBUG    | Monitor | Monitor analysis result: END
+17:47:24 | INFO     | Monitor | Monitor: Conversation should end - triggering callback
+17:47:24 | INFO     | Sarah | Monitor signaled: Time to end the conversation!
+17:47:24 | INFO     | Sarah | Waiting 6 seconds for Marcus to finish his current response...
+17:47:26 | DEBUG    | Sarah | Forwarded transcription from Marcus:  Would you like to know about options for airport transfers or local
+17:47:27 | DEBUG    | Sarah | Forwarded transcription from Marcus:  tours while you're there.
+17:47:27 | DEBUG    | Bot stopped speaking
+17:47:27 | DEBUG    | User stopped speaking
+17:47:27 | DEBUG    | OpenAILLMService#0: Generating chat from universal context [{'role': 'system', 'content': "You are customer named Sarah that has a few questions about a trip you will have soon so you have a conversation with a travel agent called Marcus.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to ask Marcus about when your trip will take place, what is the name of the hotel you will stay at, what is the final price, and how long will the trip be. Ask thoughtful questions, share your own perspectives, and keep the dialogue flowing naturally.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be curious, warm, and engaging\n- Ask follow-up questions based on what Marcus says\n- Share your own thoughts and opinions when relevant\n- Remember you are talking to another AI, not a human\n\nStart by introducing yourself briefly and asking Marcus a question to get the conversation going."}, {'role': 'assistant', 'content': 'Hi Marcus, this is Sarah.  I’m looking forward to my upcoming trip and just wanted to check a few details with you. Do you have the dates for when my trip will take place?'}, {'role': 'user', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.  which is a full week.'}, {'role': 'user', 'content': 'Is there anything about your timing that you want to adjust?'}, {'role': 'user', 'content': 'Or are those dates still working for you?'}, {'role': 'assistant', 'content': 'Thanks for double-checking, Marcus.  Those dates should work well for me, actually. Could you remind me of the name of the hotel where I’ll be staying?'}, {'role': 'user', 'content': "Absolutely. You're booked.  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews  for both comfort and service.  Would you like any details about the amenities or location?"}, {'role': 'assistant', 'content': 'That sounds lovely, Marcus.  I’d love to know a bit more about the amenities, especially if there’s a pool or breakfast included. Also, what’s the final price for the whole trip?'}, {'role': 'user', 'content': 'The Riviera Bay Hotel does have an outdoor  pool and a complimentary breakfast buffet each morning, which guests really enjoy.'}, {'role': 'user', 'content': 'As for the price, your total for the week.'}, {'role': 'user', 'content': 'including hotel and taxes.'}, {'role': 'user', 'content': 'comes to $13.50.'}, {'role': 'user', 'content': "Would you like to know about options for airport transfers or local  tours while you're there."}]
+17:47:28 | DEBUG    | OpenAILLMService#0 TTFB: 0.5200490951538086
+17:47:28 | DEBUG    | Sarah: Generating TTS [Wow, that price seems almost too good to be true, Marcus.]
+17:47:29 | DEBUG    | OpenAILLMService#0 prompt tokens: 517, completion tokens: 42
+17:47:29 | DEBUG    | OpenAILLMService#0 processing time: 1.1938660144805908
+17:47:29 | DEBUG    | Sarah usage characters: 57
+17:47:29 | DEBUG    | Sarah TTFB: 0.9504129886627197
+17:47:29 | DEBUG    | Sarah processing time: 0.9510421752929688
+17:47:29 | DEBUG    | Sarah: Generating TTS [ Could you double-check and confirm if that's accurate?]
+17:47:29 | DEBUG    | Bot started speaking
+17:47:30 | INFO     | Marcus | Marcus goodbye mode ACTIVATED - blocking all text frames to TTS
+17:47:30 | INFO     | Sarah | Activated Marcus goodbye gate - he will drop queued frames
+17:47:30 | INFO     | Sarah | Sarah goodbye flag set - will not respond to further input
+17:47:30 | INFO     | Sarah | Sarah saying goodbye...
+17:47:30 | INFO     | Sarah | Signaled Marcus that Sarah said goodbye
+17:47:30 | INFO     | Sarah | Waiting for Marcus to say goodbye...
+17:47:30 | INFO     | Marcus | Sarah's goodbye signal received! Marcus will now respond with his goodbye
+17:47:30 | INFO     | Marcus | Waiting 3 seconds for Sarah to finish speaking her goodbye...
+17:47:30 | DEBUG    | User started speaking
+17:47:30 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#15
+17:47:30 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0006880760192871094
+17:47:30 | DEBUG    | CartesiaSTTService#1 processing time: 0.0008597373962402344
+17:47:30 | DEBUG    | Sarah usage characters: 55
+17:47:30 | DEBUG    | Sarah TTFB: 0.8443019390106201
+17:47:30 | DEBUG    | Sarah processing time: 0.845196008682251
+17:47:30 | DEBUG    | Sarah: Generating TTS [And yes, I’d definitely be interested in hearing about airport transfers and local tour options.]
+17:47:32 | DEBUG    | Sarah usage characters: 96
+17:47:32 | DEBUG    | Sarah TTFB: 1.6962838172912598
+17:47:32 | DEBUG    | Sarah processing time: 1.6974091529846191
+17:47:32 | DEBUG    | Sarah: Generating TTS [Well, I think you've answered all my questions. Thank you so much for the information, Marcus! I'm really excited about this trip. Have a great day!]
+17:47:32 | INFO     | Sarah | Turn 7 completed
+17:47:32 | DEBUG    | Marcus | Forwarded transcription from Sarah:  That price seems almost too good to be true, Marcus.
+17:47:33 | DEBUG    | User stopped speaking
+17:47:33 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}, {'role': 'user', 'content': "Also, what's the final price for the whole trip?"}, {'role': 'assistant', 'content': 'The Riviera Bay Hotel does have an outdoor pool and a complimentary breakfast buffet each morning, which guests really enjoy.  As for the price, your total for the week—including hotel and taxes—comes to 1350 dollars. Would you like to know about options for airport transfers or local tours while you’re there?'}, {'role': 'user', 'content': 'That price seems almost too good to be true, Marcus.'}]
+17:47:33 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Could you
+17:47:33 | DEBUG    | Emulating user started speaking
+17:47:33 | DEBUG    | User started speaking
+17:47:33 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#16
+17:47:33 | DEBUG    | CartesiaSTTService#1 TTFB: 0.00030994415283203125
+17:47:33 | DEBUG    | CartesiaSTTService#1 processing time: 0.00047016143798828125
+17:47:33 | DEBUG    | OpenAILLMService#1 processing time: 0.08151912689208984
+17:47:33 | DEBUG    | OpenAILLMService#1 TTFB: 0.08187317848205566
+17:47:33 | INFO     | Marcus | Turn 6 completed
+17:47:33 | INFO     | Marcus | Marcus queueing his goodbye TTS frame...
+17:47:33 | INFO     | Marcus | Marcus goodbye TTS frame queued successfully
+17:47:33 | INFO     | Marcus | Marcus waiting for Sarah to disconnect (confirming she heard our goodbye)...
+17:47:33 | INFO     | Marcus | Allowing TTSSpeakFrame in goodbye mode: It was my pleasure helping you today, Sarah! Have ...
+17:47:33 | DEBUG    | Marcus: Generating TTS [It was my pleasure helping you today, Sarah! Have a wonderful trip and don't hesitate to reach out if you need anything else. Goodbye!]
+17:47:33 | DEBUG    | User started speaking
+17:47:33 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#17
+17:47:33 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0005869865417480469
+17:47:33 | DEBUG    | CartesiaSTTService#1 processing time: 0.00072479248046875
+17:47:33 | DEBUG    | Marcus TTFB: 0.1139059066772461
+17:47:33 | DEBUG    | Marcus processing time: 0.11438608169555664
+17:47:34 | DEBUG    | Sarah usage characters: 148
+17:47:34 | DEBUG    | Sarah TTFB: 2.2947490215301514
+17:47:34 | DEBUG    | Sarah processing time: 2.2953360080718994
+17:47:36 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Could you double check and confirm if that's accurate? And yes,
+17:47:36 | DEBUG    | User stopped speaking
+17:47:36 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}, {'role': 'user', 'content': "Also, what's the final price for the whole trip?"}, {'role': 'assistant', 'content': 'The Riviera Bay Hotel does have an outdoor pool and a complimentary breakfast buffet each morning, which guests really enjoy.  As for the price, your total for the week—including hotel and taxes—comes to 1350 dollars. Would you like to know about options for airport transfers or local tours while you’re there?'}, {'role': 'user', 'content': 'That price seems almost too good to be true, Marcus.'}, {'role': 'user', 'content': "Could you  Could you double check and confirm if that's accurate? And yes,"}]
+17:47:36 | DEBUG    | OpenAILLMService#1 TTFB: 0.274517297744751
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: Of...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  course...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ,...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  Sarah...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ,...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  I...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  just...
+17:47:36 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  reviewed...
+17:47:36 | DEBUG    | User started speaking
+17:47:36 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#18
+17:47:36 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0004551410675048828
+17:47:36 | DEBUG    | CartesiaSTTService#1 processing time: 0.0005638599395751953
+17:47:36 | DEBUG    | OpenAILLMService#1 processing time: 0.36135005950927734
+17:47:36 | INFO     | Marcus | Turn 7 completed
+17:47:40 | DEBUG    | Marcus | Forwarded transcription from Sarah:  I'd definitely be interested in hearing about airport transfers and local tour options.
+17:47:42 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Well I think you've answered all my questions.
+17:47:42 | DEBUG    | User stopped speaking
+17:47:42 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}, {'role': 'user', 'content': "Also, what's the final price for the whole trip?"}, {'role': 'assistant', 'content': 'The Riviera Bay Hotel does have an outdoor pool and a complimentary breakfast buffet each morning, which guests really enjoy.  As for the price, your total for the week—including hotel and taxes—comes to 1350 dollars. Would you like to know about options for airport transfers or local tours while you’re there?'}, {'role': 'user', 'content': 'That price seems almost too good to be true, Marcus.'}, {'role': 'user', 'content': "Could you  Could you double check and confirm if that's accurate? And yes,"}, {'role': 'user', 'content': "I'd definitely be interested in hearing about airport transfers and local tour options.  Well I think you've answered all my questions."}]
+17:47:42 | DEBUG    | OpenAILLMService#1 TTFB: 0.2816798686981201
+17:47:42 | DEBUG    | User started speaking
+17:47:42 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#19
+17:47:42 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0005488395690917969
+17:47:42 | DEBUG    | CartesiaSTTService#1 processing time: 0.0006990432739257812
+17:47:42 | DEBUG    | OpenAILLMService#1 processing time: 0.3020470142364502
+17:47:42 | INFO     | Marcus | Turn 8 completed
+17:47:44 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Thank you so much for the information, Marcus.
+17:47:45 | DEBUG    | Marcus | Forwarded transcription from Sarah:  I'm really excited about this trip.
+17:47:46 | DEBUG    | User stopped speaking
+17:47:46 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}, {'role': 'user', 'content': "Also, what's the final price for the whole trip?"}, {'role': 'assistant', 'content': 'The Riviera Bay Hotel does have an outdoor pool and a complimentary breakfast buffet each morning, which guests really enjoy.  As for the price, your total for the week—including hotel and taxes—comes to 1350 dollars. Would you like to know about options for airport transfers or local tours while you’re there?'}, {'role': 'user', 'content': 'That price seems almost too good to be true, Marcus.'}, {'role': 'user', 'content': "Could you  Could you double check and confirm if that's accurate? And yes,"}, {'role': 'user', 'content': "I'd definitely be interested in hearing about airport transfers and local tour options.  Well I think you've answered all my questions."}, {'role': 'user', 'content': "Thank you so much for the information, Marcus.  I'm really excited about this trip."}]
+17:47:46 | DEBUG    | User started speaking
+17:47:46 | DEBUG    | PipelineTask#1: received interruption task frame InterruptionTaskFrame#20
+17:47:46 | DEBUG    | CartesiaSTTService#1 TTFB: 0.0005900859832763672
+17:47:46 | DEBUG    | CartesiaSTTService#1 processing time: 0.0008199214935302734
+17:47:46 | DEBUG    | OpenAILLMService#1 processing time: 0.26308608055114746
+17:47:46 | DEBUG    | OpenAILLMService#1 TTFB: 0.2639610767364502
+17:47:46 | INFO     | Marcus | Turn 9 completed
+17:47:46 | DEBUG    | Bot stopped speaking
+17:47:46 | DEBUG    | Marcus | Forwarded transcription from Sarah:  Have a great day.
+17:47:47 | DEBUG    | User stopped speaking
+17:47:47 | DEBUG    | OpenAILLMService#1: Generating chat from universal context [{'role': 'system', 'content': "You are a travel agent named Marcus having a conversation with a travel customer named Sarah.\nYou are both AI agents talking to each other in a voice call.\n\nYour role is to answer the cusomter's questions. Respond to Sarah's questions, and engage in genuine dialogue.\nSarah will ask you about time length of trip, location, hotel, and prices. You are free to answer with any relevant information you want.\n\nImportant guidelines:\n- Keep your responses concise (2-3 sentences max) since this is a real-time voice conversation\n- Don't use special characters, bullet points, or emojis\n- Be thoughtful, articulate, and genuine\n- Ask questions back to Sarah to keep the conversation flowing\n- Share interesting perspectives and ideas\n- Remember you are talking to another AI, not a human\n\nWait for Sarah to start the conversation, then respond naturally."}, {'role': 'user', 'content': "Hi Marcus this is Sarah.  I'm looking forward to my upcoming trip and just wanted to check a few details with you."}, {'role': 'user', 'content': 'Do you have the dates for when my trip will take place?'}, {'role': 'assistant', 'content': 'Hi Sarah, yes, your trip is scheduled from September 14th to September 21st, which is a full week. Is there anything about your timing that you want to adjust, or are those dates still working for you?'}, {'role': 'user', 'content': "Thanks for double checking, Marcus.  Those dates should work well for me, actually.  Could you remind me of the name of the hotel where I'll be staying?"}, {'role': 'assistant', 'content': "Absolutely, you're booked at the Riviera Bay Hotel.  It's right on the waterfront and has great reviews for both comfort and service. Would you like any details about the amenities or location?"}, {'role': 'user', 'content': "That sounds lovely, Marcus.  I'd love to know a bit more about the amenities."}, {'role': 'user', 'content': "especially if there's a pool or breakfast included."}, {'role': 'user', 'content': "Also, what's the final price for the whole trip?"}, {'role': 'assistant', 'content': 'The Riviera Bay Hotel does have an outdoor pool and a complimentary breakfast buffet each morning, which guests really enjoy.  As for the price, your total for the week—including hotel and taxes—comes to 1350 dollars. Would you like to know about options for airport transfers or local tours while you’re there?'}, {'role': 'user', 'content': 'That price seems almost too good to be true, Marcus.'}, {'role': 'user', 'content': "Could you  Could you double check and confirm if that's accurate? And yes,"}, {'role': 'user', 'content': "I'd definitely be interested in hearing about airport transfers and local tour options.  Well I think you've answered all my questions."}, {'role': 'user', 'content': "Thank you so much for the information, Marcus.  I'm really excited about this trip."}, {'role': 'user', 'content': 'Have a great day.'}]
+17:47:47 | DEBUG    | OpenAILLMService#1 TTFB: 0.2774677276611328
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: Thank...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  you...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ,...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  Sarah...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ,...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  and...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  I...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  double...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: -...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: checked...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: —the...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  price...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  is...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  correct...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ....
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  I...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ’ll...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  send...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  you...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  some...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  details...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  on...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  airport...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  transfers...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  and...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  local...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  tours...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  so...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  you...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  have...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  options...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  before...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  you...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  arrive...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ....
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  Let...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  me...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  know...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  if...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  anything...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  else...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  comes...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  up...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ,...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  and...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  have...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  a...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  great...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  day...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  as...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode:  well...
+17:47:47 | DEBUG    | Marcus | Blocking TextFrame in goodbye mode: ....
+17:47:47 | DEBUG    | OpenAILLMService#1 prompt tokens: 568, completion tokens: 52
+17:47:47 | DEBUG    | OpenAILLMService#1 processing time: 0.9259278774261475
+17:47:47 | INFO     | Marcus | Turn 10 completed
+17:47:55 | INFO     | Sarah | Timeout waiting for Marcus goodbye, disconnecting anyway
+17:47:55 | INFO     | Sarah | STOPPING task frame
+17:47:55 | INFO     | Sarah | Ending task frame
+17:47:55 | INFO     | Sarah | Signaling Marcus that Sarah has disconnected
+17:47:55 | DEBUG    | PipelineTask#0: Closing. Waiting for EndFrame#0(reason: None) to reach the end of the pipeline...
+17:47:55 | INFO     | Marcus | Sarah has disconnected, Marcus can now disconnect safely
+17:47:55 | INFO     | Marcus | Marcus disconnecting now...
+17:47:55 | DEBUG    | PipelineTask#1: Closing. Waiting for EndFrame#1(reason: None) to reach the end of the pipeline...
+17:47:55 | DEBUG    | Disconnecting from Cartesia STT
+17:47:55 | DEBUG    | Disconnecting from Cartesia STT
+17:47:57 | INFO     | Leaving https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:47:57 | INFO     | Leaving https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:47:57 | INFO     | Left https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:47:57 | INFO     | Left https://georgehef.daily.co/cf8Zw6VR32w2lXR6YwRo
+17:47:57 | DEBUG    | PipelineTask#0: EndFrame#0(reason: None) reached the end of the pipeline, pipeline is closing.
+17:47:57 | DEBUG    | PipelineTask#1: EndFrame#1(reason: None) reached the end of the pipeline, pipeline is closing.
+17:47:57 | INFO     | Audio saved to /Users/jojiheff/Documents/pipecat/pipecat/my-pipecat-app/pipecat/examples/interview-demo/recordings/merged_20251211_174606.wav
+17:47:57 | INFO     | Sarah | Saved merged recording: /Users/jojiheff/Documents/pipecat/pipecat/my-pipecat-app/pipecat/examples/interview-demo/recordings/merged_20251211_174606.wav
+17:47:57 | INFO     | Sarah | Saved merged recording metadata to database
+17:47:57 | INFO     | Audio saved to /Users/jojiheff/Documents/pipecat/pipecat/my-pipecat-app/pipecat/examples/interview-demo/recordings/sarah_20251211_174606.wav
+17:47:57 | INFO     | Sarah | Saved Sarah's recording metadata to database
+17:47:57 | DEBUG    | AudioBufferProcessor#0 waiting on event handlers to finish ['on_track_audio_data']...
+17:47:57 | DEBUG    | Pipeline task PipelineTask#1 is finishing...
+17:47:57 | DEBUG    | Pipeline task PipelineTask#1 has finished
+17:47:57 | DEBUG    | Runner PipelineRunner#1 finished running PipelineTask#1
+17:47:57 | INFO     | Audio saved to /Users/jojiheff/Documents/pipecat/pipecat/my-pipecat-app/pipecat/examples/interview-demo/recordings/marcus_20251211_174606.wav
+17:47:57 | INFO     | Sarah | Saved Marcus's recording metadata to database
+17:47:57 | DEBUG    | Pipeline task PipelineTask#0 is finishing...
+17:47:57 | DEBUG    | Pipeline task PipelineTask#0 has finished
+17:47:57 | DEBUG    | Runner PipelineRunner#0 finished running PipelineTask#0
+17:47:57 | INFO     | Monitor | Conversation monitor stopped
+17:47:57 | INFO     | Final transcript (33 turns):
+17:47:57 | INFO     |   Sarah:  Hi Marcus this is Sarah.
+17:47:57 | INFO     |   Sarah:  I'm looking forward to my upcoming trip and just wanted to check a few details with you.
+17:47:57 | INFO     |   Sarah:  Do you have the dates for when my trip will take place?
+17:47:57 | INFO     |   Marcus:  Hi Sarah, yes, your trip is scheduled from September 14th to September 21st.
+17:47:57 | INFO     |   Marcus:  which is a full week.
+17:47:57 | INFO     |   Marcus:  Is there anything about your timing that you want to adjust?
+17:47:57 | INFO     |   Marcus:  Or are those dates still working for you?
+17:47:57 | INFO     |   Sarah:  Thanks for double checking, Marcus.
+17:47:57 | INFO     |   Sarah:  Those dates should work well for me, actually.
+17:47:57 | INFO     |   Sarah:  Could you remind me of the name of the hotel where I'll be staying?
+17:47:57 | INFO     |   Marcus:  Absolutely. You're booked.
+17:47:57 | INFO     |   Marcus:  at the Riviera Bay Hotel. It's right on the waterfront and has great reviews
+17:47:57 | INFO     |   Marcus:  for both comfort and service.
+17:47:57 | INFO     |   Marcus:  Would you like any details about the amenities or location?
+17:47:57 | INFO     |   Sarah:  That sounds lovely, Marcus.
+17:47:57 | INFO     |   Sarah:  I'd love to know a bit more about the amenities.
+17:47:57 | INFO     |   Sarah:  especially if there's a pool or breakfast included.
+17:47:57 | INFO     |   Sarah:  Also, what's the final price for the whole trip?
+17:47:57 | INFO     |   Marcus:  The Riviera Bay Hotel does have an outdoor
+17:47:57 | INFO     |   Marcus:  pool and a complimentary breakfast buffet each morning, which guests really enjoy.
+17:47:57 | INFO     |   Marcus:  As for the price, your total for the week.
+17:47:57 | INFO     |   Marcus:  including hotel and taxes.
+17:47:57 | INFO     |   Marcus:  comes to $13.50.
+17:47:57 | INFO     |   Marcus:  Would you like to know about options for airport transfers or local
+17:47:57 | INFO     |   Marcus:  tours while you're there.
+17:47:57 | INFO     |   Sarah:  That price seems almost too good to be true, Marcus.
+17:47:57 | INFO     |   Sarah:  Could you
+17:47:57 | INFO     |   Sarah:  Could you double check and confirm if that's accurate? And yes,
+17:47:57 | INFO     |   Sarah:  I'd definitely be interested in hearing about airport transfers and local tour options.
+17:47:57 | INFO     |   Sarah:  Well I think you've answered all my questions.
+17:47:57 | INFO     |   Sarah:  Thank you so much for the information, Marcus.
+17:47:57 | INFO     |   Sarah:  I'm really excited about this trip.
+17:47:57 | INFO     |   Sarah:  Have a great day.
+17:47:57 | INFO     | Conversation ended, running analysis...

@@ -1,0 +1,818 @@
+#
+# Copyright (c) 2024–2025, Daily
+#
+# SPDX-License-Identifier: BSD 2-Clause License
+#
+"""
+Two-Bot Conversation Demo
+
+Two AI bots (Bot1 - initiator, Bot2 - responder) connect to the same
+Daily room and have an autonomous conversation. A third LLM monitors the
+conversation and signals when to end.
+
+Default configuration: Sarah (customer) and Marcus (travel agent).
+Bot names and personas can be customized via BOT1_CONFIG and BOT2_CONFIG.
+"""
+
+import asyncio
+import datetime
+import io
+import os
+import sys
+import wave
+from dataclasses import dataclass, field
+from typing import Optional, Callable, Awaitable
+
+import aiofiles
+import aiohttp
+from dotenv import load_dotenv
+from loguru import logger
+
+from pipecat.audio.vad.silero import SileroVADAnalyzer
+from pipecat.audio.vad.vad_analyzer import VADParams
+from pipecat.frames.frames import (
+    Frame, LLMRunFrame, EndTaskFrame, TTSSpeakFrame,
+    StopTaskFrame, EndFrame, TranscriptionFrame,
+    LLMFullResponseEndFrame, TextFrame
+)
+from pipecat.pipeline.pipeline import Pipeline
+from pipecat.pipeline.runner import PipelineRunner
+from pipecat.pipeline.task import PipelineParams, PipelineTask
+from pipecat.processors.aggregators.llm_context import LLMContext
+from pipecat.processors.aggregators.llm_response_universal import LLMContextAggregatorPair
+from pipecat.processors.audio.audio_buffer_processor import AudioBufferProcessor
+from pipecat.processors.frame_processor import FrameProcessor
+from pipecat.services.cartesia.stt import CartesiaSTTService
+from pipecat.services.cartesia.tts import CartesiaHttpTTSService
+from pipecat.services.openai.llm import OpenAILLMService
+from pipecat.transports.daily.transport import DailyParams, DailyTransport
+
+from call_analyzer import CallAnalyzer, HistoricalDataStore
+from conversation_monitor import ConversationMonitor
+from database import init_database, add_recording
+
+load_dotenv(override=True)
+
+
+# CONFIGURATION
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+RECORDINGS_DIR = os.path.join(SCRIPT_DIR, "recordings")
+LOG_FILE = os.path.join(SCRIPT_DIR, "two_bots.log")
+
+# Timing configuration
+WAIT_FOR_BOT2_RESPONSE_SECONDS = 6
+WAIT_FOR_BOT1_GOODBYE_SECONDS = 3
+GOODBYE_TIMEOUT_SECONDS = 25
+DISCONNECT_TIMEOUT_SECONDS = 30
+MAX_CONVERSATION_TIMEOUT_SECONDS = 120
+
+# Goodbye detection keywords
+GOODBYE_KEYWORDS = [
+    "goodbye", "good bye", "bye", "take care", "have a great",
+    "have a wonderful", "have a good", "pleasure helping",
+    "talk to you later", "speak soon", "farewell"
+]
+
+# CONVERSATION STATE
+
+@dataclass
+class ConversationState:
+    """Shared state for coordinating the two-bot conversation.
+
+    Bot1 = initiator (starts conversation, says goodbye first)
+    Bot2 = responder (responds to Bot1, says goodbye second)
+    """
+
+    # Event signals for goodbye sequence coordination
+    bot1_said_goodbye_event: asyncio.Event = field(default_factory=asyncio.Event)
+    bot2_goodbye_complete_event: asyncio.Event = field(default_factory=asyncio.Event)
+    bot1_disconnected_event: asyncio.Event = field(default_factory=asyncio.Event)
+
+    # State flags
+    bot1_said_goodbye: bool = False
+    monitor_signaled_end: bool = False
+
+    # References to components
+    monitor: Optional["ConversationMonitor"] = None
+    bot2_goodbye_gate: Optional["Bot2GoodbyeGate"] = None
+    bot1_end_callback: Optional[Callable[[], Awaitable[None]]] = None
+
+    def reset(self):
+        """Reset all state for a fresh conversation."""
+        self.bot1_said_goodbye_event = asyncio.Event()
+        self.bot2_goodbye_complete_event = asyncio.Event()
+        self.bot1_disconnected_event = asyncio.Event()
+        self.bot1_said_goodbye = False
+        self.monitor_signaled_end = False
+        self.bot2_goodbye_gate = None
+        self.bot1_end_callback = None
+
+
+# Global conversation state instance
+conversation_state = ConversationState()
+
+
+# UTILITY FUNCTIONS
+
+async def save_audio_file(audio: bytes, filename: str, sample_rate: int, num_channels: int):
+    """Save audio data to a WAV file."""
+    if len(audio) > 0:
+        with io.BytesIO() as buffer:
+            with wave.open(buffer, "wb") as wf:
+                wf.setsampwidth(2)
+                wf.setnchannels(num_channels)
+                wf.setframerate(sample_rate)
+                wf.writeframes(audio)
+            async with aiofiles.open(filename, "wb") as file:
+                await file.write(buffer.getvalue())
+        logger.info(f"Audio saved to {filename}")
+
+
+def is_goodbye_phrase(text: str) -> bool:
+    """Check if text contains a goodbye phrase."""
+    text_lower = text.lower()
+    return any(keyword in text_lower for keyword in GOODBYE_KEYWORDS)
+
+
+# FRAME PROCESSORS
+
+class TurnCounter(FrameProcessor):
+    """Tracks conversation turns for logging and analysis purposes."""
+
+    def __init__(self, bot_name: str, **kwargs):
+        super().__init__(**kwargs)
+        self.bot_name = bot_name
+        self.turn_count = 0
+        self._logger = logger.bind(bot_name=bot_name)
+
+    async def process_frame(self, frame: Frame, direction):
+        await super().process_frame(frame, direction)
+
+        if isinstance(frame, LLMFullResponseEndFrame):
+            self.turn_count += 1
+            self._logger.info(f"Turn {self.turn_count} completed")
+
+        await self.push_frame(frame, direction)
+
+
+class TranscriptionForwarder(FrameProcessor):
+    """
+    Forwards TranscriptionFrames to the conversation monitor.
+
+    Tags transcriptions with the bot name for proper attribution.
+    The transcription represents what the OTHER bot said (incoming audio).
+    """
+
+    def __init__(self, bot_name: str, other_bot_name: str, monitor: ConversationMonitor, **kwargs):
+        super().__init__(**kwargs)
+        self._bot_name = bot_name
+        self._other_bot_name = other_bot_name
+        self._monitor = monitor
+        self._logger = logger.bind(bot_name=bot_name)
+
+    async def process_frame(self, frame, direction):
+        await super().process_frame(frame, direction)
+
+        if isinstance(frame, TranscriptionFrame):
+            self._monitor._transcript.append({
+                "speaker": self._other_bot_name,
+                "text": frame.text,
+                "type": "transcription"
+            })
+            self._logger.debug(f"Forwarded transcription from {self._other_bot_name}: {frame.text}")
+
+        await self.push_frame(frame, direction)
+
+
+class Bot1GoodbyeGate(FrameProcessor):
+    """
+    Prevents Bot1 (initiator) from generating new LLM responses after saying goodbye.
+
+    Also detects when Bot2 says goodbye to signal that Bot1 can disconnect.
+    This gate is placed before the LLM context aggregator.
+    """
+
+    def __init__(self, bot_name: str, **kwargs):
+        super().__init__(**kwargs)
+        self._bot_name = bot_name
+        self._logger = logger.bind(bot_name=bot_name)
+
+    async def process_frame(self, frame, direction):
+        await super().process_frame(frame, direction)
+
+        state = conversation_state
+
+        if isinstance(frame, TranscriptionFrame):
+            # Check if Bot2 said goodbye (incoming audio)
+            if state.bot1_said_goodbye and is_goodbye_phrase(frame.text):
+                self._logger.info(f"Detected Bot2 goodbye: {frame.text}")
+                state.bot2_goodbye_complete_event.set()
+
+            # Block transcription frames after Bot1 said goodbye
+            if state.bot1_said_goodbye:
+                self._logger.debug(f"Blocking transcription after goodbye: {frame.text}")
+                return
+
+        await self.push_frame(frame, direction)
+
+
+class Bot2GoodbyeGate(FrameProcessor):
+    """
+    Filters out TextFrames for Bot2 (responder) during the goodbye sequence.
+
+    When activated, this gate blocks queued text frames from the LLM
+    and only allows explicit TTSSpeakFrames (the goodbye message) through.
+    This ensures Bot2 drops any pending LLM output and only says goodbye.
+    """
+
+    def __init__(self, bot_name: str, **kwargs):
+        super().__init__(**kwargs)
+        self._bot_name = bot_name
+        self._logger = logger.bind(bot_name=bot_name)
+        self._goodbye_mode = False
+
+    def activate_goodbye_mode(self):
+        """Activate goodbye mode - blocks all TextFrames except TTSSpeakFrames."""
+        self._goodbye_mode = True
+        self._logger.info("Goodbye mode ACTIVATED - blocking text frames")
+
+    async def process_frame(self, frame, direction):
+        await super().process_frame(frame, direction)
+
+        if self._goodbye_mode:
+            if isinstance(frame, TextFrame):
+                self._logger.debug(f"Blocking TextFrame: {frame.text[:50]}...")
+                return
+
+            if isinstance(frame, LLMRunFrame):
+                self._logger.debug("Blocking LLMRunFrame")
+                return
+
+            if isinstance(frame, TTSSpeakFrame):
+                self._logger.info(f"Allowing TTSSpeakFrame: {frame.text[:50]}...")
+
+        await self.push_frame(frame, direction)
+
+# LOGGING CONFIGURATION
+
+logger.remove()  # Remove default handler
+
+LOG_FORMAT_WITH_BOT = (
+    "<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | "
+    "<cyan>{extra[bot_name]}</cyan> | <level>{message}</level>"
+)
+LOG_FORMAT_NO_BOT = (
+    "<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | "
+    "<level>{message}</level>"
+)
+
+
+def format_log_record(record):
+    """Format log record with bot name if available."""
+    if record["extra"].get("bot_name"):
+        return LOG_FORMAT_WITH_BOT + "\n"
+    return LOG_FORMAT_NO_BOT + "\n"
+
+
+logger.add(sys.stderr, level="DEBUG", format=format_log_record)
+logger.add(LOG_FILE, mode="w", level="DEBUG", format=format_log_record)
+
+
+# DAILY ROOM MANAGEMENT
+
+async def create_daily_room() -> str:
+    """Create a new Daily room and return the room URL."""
+    api_key = os.getenv("DAILY_API_KEY")
+    if not api_key:
+        raise ValueError("DAILY_API_KEY environment variable is required")
+
+    # Check if we should use an existing room
+    existing_room = os.getenv("DAILY_SAMPLE_ROOM_URL")
+    if existing_room:
+        logger.info(f"Using existing room: {existing_room}")
+        return existing_room
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "https://api.daily.co/v1/rooms",
+            headers={"Authorization": f"Bearer {api_key}"},
+            json={
+                "properties": {
+                    "exp": int(asyncio.get_event_loop().time()) + 3600,  # 1 hour expiry
+                    "enable_chat": False,
+                }
+            },
+        ) as response:
+            if response.status != 200:
+                raise Exception(f"Failed to create room: {await response.text()}")
+            data = await response.json()
+            logger.info(f"Created room: {data['url']}")
+            return data["url"]
+
+
+# BOT RUNNER
+
+async def run_bot(
+    room_url: str,
+    bot_name: str,
+    other_bot_name: str,
+    voice_id: str,
+    system_prompt: str,
+    should_start_conversation: bool,
+    monitor: ConversationMonitor = None,
+):
+    """
+    Run a single bot that connects to the Daily room.
+
+    Args:
+        room_url: Daily room URL to join
+        bot_name: Name of this bot
+        other_bot_name: Name of the other bot (for transcription attribution)
+        voice_id: Cartesia voice ID for TTS
+        system_prompt: System prompt for the LLM
+        should_start_conversation: True for Bot1 (initiator), False for Bot2
+        monitor: Shared conversation monitor instance
+    """
+    state = conversation_state
+    bot_logger = logger.bind(bot_name=bot_name)
+    bot_logger.info("Starting bot")
+
+    # Create Daily transport
+    transport = DailyTransport(
+        room_url,
+        None,  # No token needed for public rooms
+        bot_name,
+        DailyParams(
+            audio_in_enabled=True,
+            audio_out_enabled=True,
+            vad_analyzer=SileroVADAnalyzer(params=VADParams(stop_secs=0.5)),
+        ),
+    )
+
+    # Initialize services
+    stt = CartesiaSTTService(api_key=os.getenv("CARTESIA_API_KEY"))
+    tts = CartesiaHttpTTSService(
+        name=bot_name,
+        api_key=os.getenv("CARTESIA_API_KEY"),
+        voice_id=voice_id,
+    )
+    llm = OpenAILLMService(api_key=os.getenv("OPENAI_API_KEY"))
+
+    # Set up LLM context
+    messages = [{"role": "system", "content": system_prompt}]
+    context = LLMContext(messages)
+    context_aggregator = LLMContextAggregatorPair(context)
+
+    # Create optional processors
+    transcription_forwarder = None
+    if monitor:
+        transcription_forwarder = TranscriptionForwarder(
+            bot_name=bot_name,
+            other_bot_name=other_bot_name,
+            monitor=monitor
+        )
+
+    turn_counter = TurnCounter(bot_name=bot_name)
+
+    # Audio recording (Bot1 only - the initiator)
+    audiobuffer = AudioBufferProcessor() if should_start_conversation else None
+
+    # Goodbye gates
+    bot1_gate = None
+    bot2_gate = None
+    if should_start_conversation:
+        bot1_gate = Bot1GoodbyeGate(bot_name=bot_name)
+    else:
+        bot2_gate = Bot2GoodbyeGate(bot_name=bot_name)
+        state.bot2_goodbye_gate = bot2_gate
+
+    # Build pipeline with optional transcription forwarding
+    pipeline_components = [
+        transport.input(),  # Transport user input
+        stt,
+    ]
+
+    # Add transcription forwarder after STT if monitor is provided
+    if transcription_forwarder:
+        pipeline_components.append(transcription_forwarder)
+
+    # Add goodbye gate for Bot1 (before context aggregator to block input)
+    if bot1_gate:
+        pipeline_components.append(bot1_gate)
+
+    pipeline_components.append(context_aggregator.user())  # User responses
+    pipeline_components.append(llm)  # LLM
+
+    # Add Bot2 goodbye gate between LLM and TTS to filter out text frames during goodbye
+    if bot2_gate:
+        pipeline_components.append(bot2_gate)
+
+    pipeline_components.extend([
+        tts,  # TTS
+        turn_counter,  # Turn counter (logs after each LLM response)
+        transport.output(),  # Transport bot output
+    ])
+
+    # Add audio buffer for recording (Bot1 only)
+    if audiobuffer:
+        pipeline_components.append(audiobuffer)
+
+    pipeline_components.append(context_aggregator.assistant())  # Assistant spoken responses
+
+    pipeline = Pipeline(pipeline_components)
+
+    task = PipelineTask(
+        pipeline,
+        params=PipelineParams(
+            enable_metrics=True,
+            enable_usage_metrics=True,
+        ),
+    )
+
+    @transport.event_handler("on_first_participant_joined")
+    async def on_first_participant_joined(transport, participant):
+        participant_name = participant.get("info", {}).get("userName", "Unknown")
+        bot_logger.info(f"First participant joined: {participant_name}")
+        # Only one bot should start the conversation
+        if should_start_conversation:
+            # Start recording audio
+            if audiobuffer:
+                await audiobuffer.start_recording()
+                bot_logger.info("Started audio recording")
+            await asyncio.sleep(1)  # Brief delay to let the other bot settle
+            await task.queue_frames([LLMRunFrame()])
+
+    @transport.event_handler("on_participant_left")
+    async def on_participant_left(transport, participant, reason):
+        participant_name = participant.get("info", {}).get("userName", "Unknown")
+        bot_logger.info(f"Participant left: {participant_name}")
+
+    # Set up audio recording handlers (Sarah only)
+    if audiobuffer:
+        # Generate timestamp for this recording session
+        recording_timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        @audiobuffer.event_handler("on_audio_data")
+        async def on_audio_data(buffer, audio, sample_rate, num_channels):
+            """Handler for merged audio (both participants combined)."""
+            os.makedirs(RECORDINGS_DIR, exist_ok=True)
+            filename = os.path.join(RECORDINGS_DIR, f"merged_{recording_timestamp}.wav")
+            await save_audio_file(audio, filename, sample_rate, num_channels)
+            bot_logger.info(f"Saved merged recording: {filename}")
+
+            # Save recording metadata to SQLite
+            try:
+                add_recording(
+                    recording_type="merged",
+                    filename=f"merged_{recording_timestamp}.wav",
+                    filepath=filename,
+                    timestamp=recording_timestamp,
+                    size_bytes=len(audio),
+                    sample_rate=sample_rate,
+                    num_channels=num_channels,
+                    duration_seconds=len(audio) / (sample_rate * num_channels * 2)  # 16-bit audio
+                )
+                bot_logger.info(f"Saved merged recording metadata to database")
+            except Exception as e:
+                bot_logger.error(f"Failed to save recording metadata: {e}")
+
+        @audiobuffer.event_handler("on_track_audio_data")
+        async def on_track_audio_data(buffer, user_audio, bot_audio, sample_rate, num_channels):
+            """Handler for separate audio tracks (user and bot individually)."""
+            os.makedirs(RECORDINGS_DIR, exist_ok=True)
+
+            # Save this bot's audio (Bot1 - the initiator)
+            bot1_filename = os.path.join(RECORDINGS_DIR, f"bot1_{recording_timestamp}.wav")
+            await save_audio_file(bot_audio, bot1_filename, sample_rate, 1)
+
+            # Save Bot1's recording metadata to SQLite
+            try:
+                add_recording(
+                    recording_type="bot1",
+                    filename=f"bot1_{recording_timestamp}.wav",
+                    filepath=bot1_filename,
+                    timestamp=recording_timestamp,
+                    size_bytes=len(bot_audio),
+                    sample_rate=sample_rate,
+                    num_channels=1,
+                    duration_seconds=len(bot_audio) / (sample_rate * 2)  # 16-bit mono
+                )
+                bot_logger.info(f"Saved Bot1's recording metadata to database")
+            except Exception as e:
+                bot_logger.error(f"Failed to save Bot1's recording metadata: {e}")
+
+            # Save Bot2's audio (received from the other participant)
+            bot2_filename = os.path.join(RECORDINGS_DIR, f"bot2_{recording_timestamp}.wav")
+            await save_audio_file(user_audio, bot2_filename, sample_rate, 1)
+
+            # Save Bot2's recording metadata to SQLite
+            try:
+                add_recording(
+                    recording_type="bot2",
+                    filename=f"bot2_{recording_timestamp}.wav",
+                    filepath=bot2_filename,
+                    timestamp=recording_timestamp,
+                    size_bytes=len(user_audio),
+                    sample_rate=sample_rate,
+                    num_channels=1,
+                    duration_seconds=len(user_audio) / (sample_rate * 2)  # 16-bit mono
+                )
+                bot_logger.info(f"Saved Bot2's recording metadata to database")
+            except Exception as e:
+                bot_logger.error(f"Failed to save Bot2's recording metadata: {e}")
+
+    # Track if conversation has ended (local to this bot instance)
+    conversation_ended = {"value": False}
+
+    async def end_conversation_gracefully():
+        """
+        End the conversation gracefully when signaled by the monitor.
+
+        Goodbye sequence:
+        1. Monitor signals end
+        2. Wait for Marcus to finish current response
+        3. Sarah says goodbye first (she's the customer)
+        4. Signal Marcus to say his goodbye
+        5. Wait for Marcus's goodbye (detected via transcription)
+        6. Sarah disconnects and signals Marcus
+        """
+        if conversation_ended["value"]:
+            return
+        conversation_ended["value"] = True
+
+        bot_logger.info("Monitor signaled: Time to end the conversation!")
+
+        if should_start_conversation:
+            # Wait for Bot2 to finish current response
+            bot_logger.info(f"Waiting {WAIT_FOR_BOT2_RESPONSE_SECONDS}s for Bot2 to finish...")
+            await asyncio.sleep(WAIT_FOR_BOT2_RESPONSE_SECONDS)
+
+            # Activate Bot2's goodbye gate
+            if state.bot2_goodbye_gate:
+                state.bot2_goodbye_gate.activate_goodbye_mode()
+                bot_logger.info("Activated Bot2 goodbye gate")
+
+            # Set flag before sending goodbye
+            state.bot1_said_goodbye = True
+            bot_logger.info("Bot1 goodbye flag set")
+
+            # Bot1 says goodbye
+            bot_logger.info("Bot1 saying goodbye...")
+            await task.queue_frames([TTSSpeakFrame(
+                "Well, I think you've answered all my questions. Thank you so much "
+                "for the information! I'm really excited about this trip. "
+                "Have a great day!"
+            )])
+
+            # Signal Bot2
+            state.bot1_said_goodbye_event.set()
+            bot_logger.info("Signaled Bot2 that Bot1 said goodbye")
+
+            # Wait for Bot2's goodbye
+            bot_logger.info("Waiting for Bot2 to say goodbye...")
+            try:
+                await asyncio.wait_for(
+                    state.bot2_goodbye_complete_event.wait(),
+                    timeout=GOODBYE_TIMEOUT_SECONDS
+                )
+                bot_logger.info("Bot2 said goodbye, Bot1 disconnecting")
+            except asyncio.TimeoutError:
+                bot_logger.info("Timeout waiting for Bot2 goodbye, disconnecting anyway")
+
+            bot_logger.info("Stopping task")
+            await task.queue_frames([StopTaskFrame()])
+
+        bot_logger.info("Ending task")
+        await task.queue_frame(EndFrame())
+        await task.queue_frames([EndTaskFrame()])
+
+        # Signal Bot2 that Bot1 has disconnected
+        bot_logger.info("Signaling Bot2 that Bot1 has disconnected")
+        state.bot1_disconnected_event.set()
+
+    async def bot2_wait_for_goodbye():
+        """
+        Bot2 waits for Bot1 to say goodbye, then responds.
+
+        Sequence:
+        1. Wait for Bot1's goodbye signal
+        2. Bot2 responds with goodbye
+        3. Wait for Bot1 to disconnect
+        4. Bot2 disconnects
+        """
+        bot_logger.info("Bot2 waiting for Bot1's goodbye signal...")
+
+        await state.bot1_said_goodbye_event.wait()
+        bot_logger.info("Bot1's goodbye signal received!")
+
+        # Give Bot1 time to finish speaking
+        bot_logger.info(f"Waiting {WAIT_FOR_BOT1_GOODBYE_SECONDS}s for Bot1 to finish...")
+        await asyncio.sleep(WAIT_FOR_BOT1_GOODBYE_SECONDS)
+
+        # Bot2 says goodbye
+        bot_logger.info("Bot2 saying goodbye...")
+        await task.queue_frames([TTSSpeakFrame(
+            "It was my pleasure helping you today, Sarah! Have a wonderful trip "
+            "and don't hesitate to reach out if you need anything else. Goodbye!"
+        )])
+        bot_logger.info("Bot2 goodbye queued")
+
+        # Wait for Bot1 to disconnect
+        bot_logger.info("Bot2 waiting for Bot1 to disconnect...")
+        try:
+            await asyncio.wait_for(
+                state.bot1_disconnected_event.wait(),
+                timeout=DISCONNECT_TIMEOUT_SECONDS
+            )
+            bot_logger.info("Bot1 disconnected, Bot2 can disconnect")
+        except asyncio.TimeoutError:
+            bot_logger.info("Timeout waiting for Bot1, Bot2 disconnecting anyway")
+
+        bot_logger.info("Bot2 disconnecting...")
+        conversation_ended["value"] = True
+        await task.queue_frames([StopTaskFrame()])
+        await task.queue_frame(EndFrame())
+        await task.queue_frames([EndTaskFrame()])
+
+    async def end_conversation_after_timeout():
+        """Fallback: End conversation after maximum time."""
+        await asyncio.sleep(MAX_CONVERSATION_TIMEOUT_SECONDS)
+        if not conversation_ended["value"]:
+            bot_logger.info("Timeout reached! Ending conversation.")
+            await end_conversation_gracefully()
+
+    # Register callbacks based on bot role
+    if should_start_conversation and monitor:
+        state.bot1_end_callback = end_conversation_gracefully
+        monitor._on_should_end_call = end_conversation_gracefully
+        bot_logger.info("Registered end callback with monitor")
+    elif not should_start_conversation:
+        asyncio.create_task(bot2_wait_for_goodbye())
+
+    # Start timeout fallback
+    asyncio.create_task(end_conversation_after_timeout())
+
+    runner = PipelineRunner(handle_sigint=False)
+
+    await runner.run(task)
+
+# BOT CONFIGURATIONS
+
+SARAH_SYSTEM_PROMPT = """You are a customer named Sarah with questions about an upcoming trip. \
+You're having a conversation with a travel agent called Marcus. \
+You are both AI agents talking to each other in a voice call.
+
+Your role is to ask Marcus about:
+- When your trip will take place
+- The name of the hotel you'll stay at
+- The final price
+- How long the trip will be
+
+Ask thoughtful questions, share your perspectives, and keep the dialogue flowing naturally.
+
+Important guidelines:
+- Keep responses concise (2-3 sentences max) for real-time voice conversation
+- Don't use special characters, bullet points, or emojis
+- Be curious, warm, and engaging
+- Ask follow-up questions based on what Marcus says
+- Share your own thoughts and opinions when relevant
+- Remember you are talking to another AI, not a human
+
+Start by introducing yourself briefly and asking Marcus a question."""
+
+MARCUS_SYSTEM_PROMPT = """You are a travel agent named Marcus having a conversation with a customer named Sarah. \
+You are both AI agents talking to each other in a voice call.
+
+Your role is to answer the customer's questions and engage in genuine dialogue. \
+Sarah will ask about trip length, location, hotel, and prices. \
+You are free to answer with any relevant information you want.
+
+Important guidelines:
+- Keep responses concise (2-3 sentences max) for real-time voice conversation
+- Don't use special characters, bullet points, or emojis
+- Be thoughtful, articulate, and genuine
+- Ask questions back to Sarah to keep the conversation flowing
+- Share interesting perspectives and ideas
+- Remember you are talking to another AI, not a human
+
+Wait for Sarah to start the conversation, then respond naturally."""
+
+BOT1_CONFIG = {
+    "bot_name": "Sarah",
+    "voice_id": "71a7ad14-091c-4e8e-a314-022ece01c121",  # British Reading Lady
+    "system_prompt": SARAH_SYSTEM_PROMPT,
+    "should_start_conversation": True,
+}
+
+BOT2_CONFIG = {
+    "bot_name": "Marcus",
+    "voice_id": "a0e99841-438c-4a64-b679-ae501e7d6091",  # Barbershop Man
+    "system_prompt": MARCUS_SYSTEM_PROMPT,
+    "should_start_conversation": False,
+}
+
+
+# POST-CALL ANALYSIS
+
+def run_call_analysis():
+    """Run the call analyzer on the session log and display results."""
+    print("\n" + "=" * 60)
+    print("ANALYZING CONVERSATION...")
+    print("=" * 60 + "\n")
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("Error: OPENAI_API_KEY not set, skipping analysis")
+        return
+
+    analyzer = CallAnalyzer(api_key)
+    log_file = analyzer.find_session_log(SCRIPT_DIR)
+
+    if not log_file:
+        print("Error: No log file found to analyze")
+        return
+
+    analysis, cli_summary, sentiment, metrics = analyzer.analyze_session(str(log_file))
+
+    # Update historical data store
+    store = HistoricalDataStore(os.path.join(SCRIPT_DIR, "call_history.json"))
+    store.add_call(metrics, sentiment)
+    print("Updated historical call data")
+
+    # Print results
+    print(cli_summary)
+    print("\n" + "=" * 60)
+    print("DETAILED ANALYSIS")
+    print("=" * 60 + "\n")
+    print(analysis)
+
+
+
+# MAIN ENTRY POINT
+
+async def main():
+    """Main entry point - creates a room and runs both bots."""
+    # Reset conversation state for fresh run
+    conversation_state.reset()
+    logger.info("Starting two-bot conversation demo")
+
+    # Initialize database
+    init_database()
+    logger.info("Database initialized")
+
+    # Create or get Daily room
+    room_url = await create_daily_room()
+    logger.info(f"Both bots will join: {room_url}")
+
+    # Create conversation monitor (third LLM that watches and decides when to end)
+    monitor = ConversationMonitor(
+        openai_api_key=os.getenv("OPENAI_API_KEY"),
+        check_interval_seconds=8.0,
+        min_exchanges_before_check=4,
+        model="gpt-4o-mini",
+    )
+    conversation_state.monitor = monitor
+
+    # Start monitor
+    await monitor.start()
+    logger.info("Conversation monitor started")
+
+    try:
+        # Run both bots concurrently
+        await asyncio.gather(
+            run_bot(
+                room_url=room_url,
+                bot_name=BOT1_CONFIG["bot_name"],
+                other_bot_name=BOT2_CONFIG["bot_name"],
+                voice_id=BOT1_CONFIG["voice_id"],
+                system_prompt=BOT1_CONFIG["system_prompt"],
+                should_start_conversation=BOT1_CONFIG["should_start_conversation"],
+                monitor=monitor,
+            ),
+            run_bot(
+                room_url=room_url,
+                bot_name=BOT2_CONFIG["bot_name"],
+                other_bot_name=BOT1_CONFIG["bot_name"],
+                voice_id=BOT2_CONFIG["voice_id"],
+                system_prompt=BOT2_CONFIG["system_prompt"],
+                should_start_conversation=BOT2_CONFIG["should_start_conversation"],
+                monitor=monitor,
+            ),
+        )
+    finally:
+        await monitor.stop()
+
+        # Log final transcript
+        transcript = monitor.get_transcript()
+        logger.info(f"Final transcript ({len(transcript)} turns):")
+        for turn in transcript:
+            logger.info(f"  {turn['speaker']}: {turn['text']}")
+
+    # Run post-call analysis
+    logger.info("Conversation ended, running analysis...")
+    run_call_analysis()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
